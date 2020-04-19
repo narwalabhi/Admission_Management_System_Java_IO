@@ -83,7 +83,13 @@ public class Main {
     }
 
     private static void viewStudents() throws IOException, ClassNotFoundException {
-        FileInputStream fileInputStream = new FileInputStream(new File(fileName));
+         File file = new File(fileName);
+        if(!file.exists()){
+            System.out.println("No data found!");
+        }else{
+            System.out.println("Student Data: ");
+        }
+        FileInputStream fileInputStream = new FileInputStream(file));
         ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
         Student student = null;
         boolean ifExist = true;
