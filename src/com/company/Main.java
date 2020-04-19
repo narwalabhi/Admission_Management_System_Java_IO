@@ -74,7 +74,12 @@ public class Main {
     }
 
     private static void deleteAllStudentss() {
-
+        File file = new File(fileName);
+        if(file.delete()){
+            System.out.println("Data deleted!");
+        }else{
+            System.out.println("Failed to delete.");
+        }
     }
 
     private static void viewStudents() throws IOException, ClassNotFoundException {
@@ -114,7 +119,7 @@ public class Main {
 //                    System.out.println(student);
                     found = true;
                     char c = scanner.nextLine().charAt(0);
-                    if(c == 'y' || c == 'N'){
+                    if(c == 'y' || c == 'Y'){
                         continue;
                     }
                     Student obj = StudentBuilder();
