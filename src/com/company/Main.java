@@ -1,5 +1,6 @@
 package com.company;
 
+
 import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -83,13 +84,7 @@ public class Main {
     }
 
     private static void viewStudents() throws IOException, ClassNotFoundException {
-         File file = new File(fileName);
-        if(!file.exists()){
-            System.out.println("No data found!");
-        }else{
-            System.out.println("Student Data: ");
-        }
-        FileInputStream fileInputStream = new FileInputStream(file));
+        FileInputStream fileInputStream = new FileInputStream(new File(fileName));
         ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
         Student student = null;
         boolean ifExist = true;
@@ -125,7 +120,7 @@ public class Main {
 //                    System.out.println(student);
                     found = true;
                     char c = scanner.nextLine().charAt(0);
-                    if(c == 'y' || c == 'Y'){
+                    if(c == 'y' || c == 'N'){
                         continue;
                     }
                     Student obj = StudentBuilder();
@@ -196,18 +191,23 @@ public class Main {
         File file = new File(fileName);
         FileOutputStream fileOutputStream = null;
         ObjectOutputStream objectOutputStream = null;
-        if(file.exists()){
-            fileOutputStream = new FileOutputStream(file,true);
-            objectOutputStream = new AppendingObjectOutputStream(fileOutputStream);
-        }else{
-            fileOutputStream = new FileOutputStream(file);
-            objectOutputStream = new ObjectOutputStream(fileOutputStream);
-        }
-        Student student = StudentBuilder();
-        try{
-            objectOutputStream.writeObject(student);
-        } catch (IOException e) {
-            e.printStackTrace();
+        try {
+            if(file.exists()){
+                fileOutputStream = new FileOutputStream(file,true);
+                objectOutputStream = new AppendingObjectOutputStream(fileOutputStream);
+            }else{
+                fileOutputStream = new FileOutputStream(file);
+                objectOutputStream = new ObjectOutputStream(fileOutputStream);
+            }
+                Student student = StudentBuilder();
+            try{
+                objectOutputStream.writeObject(student);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return false;
+            }
+        }catch (FileNotFoundException e){
+            System.out.println("No data found!");
             return false;
         }
         objectOutputStream.close();
@@ -231,7 +231,6 @@ public class Main {
             e.printStackTrace();
         }
         Student student = new Student(name, age, date);
-        scanner.nextLine();
         System.out.println("Select Course:");
         System.out.println(
                 "1. Bachelor of Technology\n" +
@@ -267,3 +266,4 @@ public class Main {
         return student;
     }
 }
+
